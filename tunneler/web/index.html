@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="sk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tunneler</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel">
+        <div>
+          <p class="eyebrow">Go + WebSocket hra</p>
+          <h1>Tunneler</h1>
+        </div>
+        <label>
+          Meno hraca
+          <input id="playerName" maxlength="18" value="Hrac">
+        </label>
+        <label>
+          Mapa
+          <select id="mapSelect"></select>
+        </label>
+        <button id="joinButton">Pripojit sa</button>
+        <p id="status">Server este nie je pripojeny.</p>
+      </section>
+
+      <section class="game-area">
+        <canvas id="game" width="960" height="600"></canvas>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

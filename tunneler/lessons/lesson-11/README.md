@@ -1,20 +1,20 @@
-# Lekcia 11: WebSocket spojenie
+# Lekcia 11: JSON
 
 ## Ciel
 
-Rozumiet, preco hra potrebuje trvale spojenie.
+Pochopit, ako si Go a JavaScript posielaju data.
 
 ## Co si vysvetlime
 
-- rozdiel HTTP request a WebSocket
-- otvorenie spojenia v JavaScripte
-- upgrade na serveri
-- spravy zo servera ku klientovi
+- struktury v Go
+- tagy `json`
+- `JSON.stringify` a `JSON.parse`
+- rozdiel medzi prikazom a stavom hry
 
 ## Uloha
 
-Najdi `HandleWebSocket` a popis, co sa stane pri pripojeni hraca.
+Pridaj do tanku novu vlastnost `Score` alebo zmen jej zobrazenie v klientovi.
 
 ## Mini vyzva
 
-Zmen text statusu pri otvoreni a zatvoreni spojenia.
+Zobraz skore hracov vedla hernej plochy.

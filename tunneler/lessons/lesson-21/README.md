@@ -1,20 +1,20 @@
-# Lekcia 21: Zasah tanku
+# Lekcia 21: Strely
 
 ## Ciel
 
-Vyhodnotit, ci strela trafila ineho hraca.
+Pridat objekt, ktory sa hybe sam.
 
 ## Co si vysvetlime
 
-- porovnanie suradnic
-- preskocenie vlastnika strely
-- zmena `Alive`
-- body za zasah
+- struktura `Bullet`
+- vlastnik strely
+- tik hry cez `time.Ticker`
+- zanik strely po naraze
 
 ## Uloha
 
-Uprav pocet bodov za trafenie supera.
+Zmen rychlost striel upravou casu v `time.NewTicker`.
 
 ## Mini vyzva
 
-Pridaj zivoty namiesto okamziteho vyradenia.
+Pridaj limit, aby hrac nemohol vystrelit nekonecne vela striel naraz.

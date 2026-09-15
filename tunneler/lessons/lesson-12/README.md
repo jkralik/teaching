@@ -1,20 +1,20 @@
-# Lekcia 12: Herny stav
+# Lekcia 12: WebSocket spojenie
 
 ## Ciel
 
-Pochopit, preco ma server uchovavat pravdivy stav hry.
+Rozumiet, preco hra potrebuje trvale spojenie.
 
 ## Co si vysvetlime
 
-- mapa, tanky a strely ako stav
-- preco klient neposiela svoju polohu priamo
-- co znamena snapshot
-- kopirovanie dat pre odoslanie
+- rozdiel HTTP request a WebSocket
+- otvorenie spojenia v JavaScripte
+- upgrade na serveri
+- spravy zo servera ku klientovi
 
 ## Uloha
 
-Preskumaj strukturu `Snapshot` a najdi, kde sa vytvara.
+Najdi `HandleWebSocket` a popis, co sa stane pri pripojeni hraca.
 
 ## Mini vyzva
 
-Pridaj do snapshotu pocet hracov na mape.
+Zmen text statusu pri otvoreni a zatvoreni spojenia.

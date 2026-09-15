@@ -1,20 +1,20 @@
-# Lekcia 17: Viac hracov
+# Lekcia 17: Klavesnica v JavaScripte
 
 ## Ciel
 
-Pochopit, ako server drzi zoznam pripojenych hracov.
+Posielat prikazy zo sipok a WASD na server.
 
 ## Co si vysvetlime
 
-- mapa `map[string]Tank`
-- ID hraca
-- pripojenie a odpojenie
-- broadcast spravy vsetkym klientom
+- udalost `keydown`
+- objekt s mapovanim klavesov
+- `event.preventDefault()`
+- odoslanie JSON spravy
 
 ## Uloha
 
-Otvor hru v dvoch oknach prehliadaca a sleduj, ako sa tanky navzajom vidia.
+Pridaj dalsie klavesy pre pohyb alebo zmen ovladanie.
 
 ## Mini vyzva
 
-Zmen startovaciu poziciu novych hracov.
+Pridaj klaves `r`, ktory neskor pouzijeme na respawn.

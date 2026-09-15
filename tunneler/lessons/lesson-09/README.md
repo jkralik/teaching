@@ -1,20 +1,20 @@
-# Lekcia 09: Generovanie mapy
+# Lekcia 09: Nacitanie mapy zo suboru
 
 ## Ciel
 
-Vytvorit mapu pomocou nahody.
+Vediet precitat textovy subor s mapou.
 
 ## Co si vysvetlime
 
-- balicek `math/rand`
-- pravdepodobnost
-- hranice mapy
-- preco generovana mapa potrebuje pevny okraj
+- `os.Open`
+- `bufio.Scanner`
+- osetrenie chyby
+- preco musia mat riadky rovnaku dlzku
 
 ## Uloha
 
-Uprav percento zeme a kamenov v `GenerateMap`.
+Vytvor novu mapu v priecinku `maps/` a over, ze sa zobrazi vo vybere map.
 
 ## Mini vyzva
 
-Vygeneruj mapu, ktora ma viac prazdneho miesta pre rychlejsiu hru.
+Urob mapu, ktora ma v strede pevnu prekazku z `X`.

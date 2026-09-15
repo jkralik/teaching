@@ -1,20 +1,20 @@
-# Lekcia 28: Respawn a koniec kola
+# Lekcia 28: Herny dizajn
 
 ## Ciel
 
-Pridat pravidla pre navrat hraca do hry.
+Rozmyslat ako tvorca hry, nie len ako programator.
 
 ## Co si vysvetlime
 
-- stav `Alive`
-- prikaz `respawn`
-- hladanie volneho miesta
-- reset kola
+- co robi hru zabavnou
+- kratka spatna vazba
+- jasne pravidla
+- balans medzi kopanim a strielanim
 
 ## Uloha
 
-Pridaj klientsky prikaz `respawn` a serverovu reakciu.
+Navrhni jedno nove pravidlo a zapis, ktore subory by bolo treba zmenit.
 
 ## Mini vyzva
 
-Urob pravidlo, ze hrac sa moze vratit az po 3 sekundach.
+Pridaj power-up alebo specialny typ policka iba ako navrh na papier.

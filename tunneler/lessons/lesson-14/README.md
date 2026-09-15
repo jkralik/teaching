@@ -1,20 +1,20 @@
-# Lekcia 14: Kolizie
+# Lekcia 14: Pohyb tanku
 
 ## Ciel
 
-Zabranit tanku prejst cez kamen alebo okraj mapy.
+Napogramovat pohyb podla smeru.
 
 ## Co si vysvetlime
 
-- pevna prekazka
-- kontrola cieloveho policka
-- navrat z funkcie pomocou `return`
-- preco su okraje mapy dolezite
+- `switch`
+- suradnice v mriezke
+- smer tanku
+- testovanie malej funkcie
 
 ## Uloha
 
-V `moveTank` najdi pravidlo pre kamen `X` a vyskusaj ho zmenit.
+Uprav alebo otestuj funkciu `nextPosition`.
 
 ## Mini vyzva
 
-Pridaj novy typ policka, ktory spomali tank alebo ho zastavi.
+Pridaj novy prikaz, ktory tank otoci bez pohybu.

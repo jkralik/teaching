@@ -1,20 +1,20 @@
-# Lekcia 15: Kopanie tunelov
+# Lekcia 15: Kolizie
 
 ## Ciel
 
-Spravit z tanku kopaca, ktory meni mapu.
+Zabranit tanku prejst cez kamen alebo okraj mapy.
 
 ## Co si vysvetlime
 
-- mutovanie herneho stavu
-- rozdiel medzi zemou a prazdnym miestom
-- skore za odkopanu zem
-- preco sa tank pri kopani najprv nepohne
+- pevna prekazka
+- kontrola cieloveho policka
+- navrat z funkcie pomocou `return`
+- preco su okraje mapy dolezite
 
 ## Uloha
 
-Zmen pocet bodov, ktore hrac dostane za odkopanie zeme.
+V `moveTank` najdi pravidlo pre kamen `X` a vyskusaj ho zmenit.
 
 ## Mini vyzva
 
-Sprav pravidlo, ze niektora zem da viac bodov.
+Pridaj novy typ policka, ktory spomali tank alebo ho zastavi.

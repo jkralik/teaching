@@ -1,20 +1,20 @@
-# Lekcia 27: Herny dizajn
+# Lekcia 27: Refaktoring
 
 ## Ciel
 
-Rozmyslat ako tvorca hry, nie len ako programator.
+Zlepsit kod bez zmeny spravania hry.
 
 ## Co si vysvetlime
 
-- co robi hru zabavnou
-- kratka spatna vazba
-- jasne pravidla
-- balans medzi kopanim a strielanim
+- male funkcie
+- pomenovanie
+- presun opakujuceho sa kodu
+- preco refaktoring robime po testoch
 
 ## Uloha
 
-Navrhni jedno nove pravidlo a zapis, ktore subory by bolo treba zmenit.
+Najdi cast kodu, ktora by mohla mat lepsi nazov alebo samostatnu funkciu.
 
 ## Mini vyzva
 
-Pridaj power-up alebo specialny typ policka iba ako navrh na papier.
+Rozdel kreslenie v JavaScripte na funkcie `drawMap`, `drawTanks`, `drawBullets`.

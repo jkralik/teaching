@@ -2,7 +2,7 @@
 
 Tunneler je kurzovy projekt pre deti, ktore sa ucia programovat v Go. Cielom je postupne vytvorit multiplayer hru, v ktorej sa tanky pohybuju po mape, kopu tunely, zbieraju body a strielaju po sebe.
 
-Projekt ma priblizne 30 lekcii po 1 hodine. Kazda lekcia je samostatny priecinok v `lessons/lesson-XX` s README zadanim.
+Projekt ma priblizne 31 lekcii po 1 hodine. Kazda lekcia je samostatny priecinok v `lessons/lesson-XX` s README zadanim.
 
 ## Co projekt obsahuje
 
@@ -31,6 +31,33 @@ Port sa da zmenit cez premennu prostredia:
 ```bash
 PORT=3000 go run ./cmd/tunneler
 ```
+
+## Git a GitHub
+
+Po kazdej dokoncenej malej zmene si uloz pracu do repozitara:
+
+```bash
+git status
+git add cesta/k/suboru
+git commit -m "Kratky popis zmeny"
+git push
+```
+
+Pre novu ulohu si najprv vytvor vlastnu vetvu. Napriklad pre upravu vypisu portu:
+
+```bash
+git switch -c vypis-portu
+git push -u origin vypis-portu
+```
+
+Potom vytvor pull request z vlastnej vetvy do `main`. Ked je zmena spojena, vrat sa do `main` a stiahni nove zmeny:
+
+```bash
+git switch main
+git pull
+```
+
+Podrobny postup a vysvetlenie prikazov je v [druhej lekcii](lessons/lesson-02/README.md).
 
 ## Zakladne pravidla hry
 

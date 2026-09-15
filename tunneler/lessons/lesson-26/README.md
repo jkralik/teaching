@@ -1,20 +1,20 @@
-# Lekcia 26: Refaktoring
+# Lekcia 26: Testy
 
 ## Ciel
 
-Zlepsit kod bez zmeny spravania hry.
+Napisat maly test pre herne pravidlo.
 
 ## Co si vysvetlime
 
-- male funkcie
-- pomenovanie
-- presun opakujuceho sa kodu
-- preco refaktoring robime po testoch
+- subory `*_test.go`
+- `testing.T`
+- co znamena ocakavanie
+- prikaz `go test ./...`
 
 ## Uloha
 
-Najdi cast kodu, ktora by mohla mat lepsi nazov alebo samostatnu funkciu.
+Pridaj test pre funkciu `nextPosition`.
 
 ## Mini vyzva
 
-Rozdel kreslenie v JavaScripte na funkcie `drawMap`, `drawTanks`, `drawBullets`.
+Pridaj test, ze strela znici zem a zmizne.

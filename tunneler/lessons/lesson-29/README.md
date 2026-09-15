@@ -1,20 +1,20 @@
-# Lekcia 29: Male vylepsenia klienta
+# Lekcia 29: Respawn a koniec kola
 
 ## Ciel
 
-Spravit hru prijemnejsiu na hranie.
+Pridat pravidla pre navrat hraca do hry.
 
 ## Co si vysvetlime
 
-- tabulka skore
-- zobrazenie pripojenia
-- jednoduchy herny HUD
-- citatelnost na malom displeji
+- stav `Alive`
+- prikaz `respawn`
+- hladanie volneho miesta
+- reset kola
 
 ## Uloha
 
-Pridaj zoznam hracov a ich skore do HTML stranky.
+Pridaj klientsky prikaz `respawn` a serverovu reakciu.
 
 ## Mini vyzva
 
-Zvyrazni vlastny tank inou farbou.
+Urob pravidlo, ze hrac sa moze vratit az po 3 sekundach.

@@ -1,20 +1,20 @@
-# Lekcia 10: JSON
+# Lekcia 10: Generovanie mapy
 
 ## Ciel
 
-Pochopit, ako si Go a JavaScript posielaju data.
+Vytvorit mapu pomocou nahody.
 
 ## Co si vysvetlime
 
-- struktury v Go
-- tagy `json`
-- `JSON.stringify` a `JSON.parse`
-- rozdiel medzi prikazom a stavom hry
+- balicek `math/rand`
+- pravdepodobnost
+- hranice mapy
+- preco generovana mapa potrebuje pevny okraj
 
 ## Uloha
 
-Pridaj do tanku novu vlastnost `Score` alebo zmen jej zobrazenie v klientovi.
+Uprav percento zeme a kamenov v `GenerateMap`.
 
 ## Mini vyzva
 
-Zobraz skore hracov vedla hernej plochy.
+Vygeneruj mapu, ktora ma viac prazdneho miesta pre rychlejsiu hru.

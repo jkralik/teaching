@@ -1,20 +1,20 @@
-# Lekcia 19: Mutex a bezpecny stav
+# Lekcia 19: Gorutiny a kanaly
 
 ## Ciel
 
-Pochopit, preco viac gorutin nemoze menit stav naraz bez pravidiel.
+Rozumiet zakladu sucasneho behu v Go.
 
 ## Co si vysvetlime
 
-- `sync.Mutex`
-- `Lock` a `Unlock`
-- `defer`
-- kriticka sekcia
+- `go func()`
+- kanal `chan`
+- citanie a zapis sprav
+- preco WebSocket potrebuje citanie aj zapis
 
 ## Uloha
 
-Najdi miesta, kde sa pouziva `hub.mu.Lock()`.
+Najdi kanal, cez ktory hub posiela spravy klientovi.
 
 ## Mini vyzva
 
-Vysvetli vlastnymi slovami, co by sa mohlo stat bez mutexu.
+Pridaj spravu pri pripojeni noveho hraca.

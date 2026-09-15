@@ -1,20 +1,20 @@
-# Lekcia 25: Testy
+# Lekcia 25: Chyby a logovanie
 
 ## Ciel
 
-Napisat maly test pre herne pravidlo.
+Nebat sa chyb a vediet ich citat.
 
 ## Co si vysvetlime
 
-- subory `*_test.go`
-- `testing.T`
-- co znamena ocakavanie
-- prikaz `go test ./...`
+- `error`
+- `if err != nil`
+- `log.Printf`
+- rozdiel medzi chybou pre programatora a hraca
 
 ## Uloha
 
-Pridaj test pre funkciu `nextPosition`.
+Skus pokazit subor mapy tak, aby mal riadky roznej dlzky, a precitaj chybovu spravu.
 
 ## Mini vyzva
 
-Pridaj test, ze strela znici zem a zmizne.
+Sprav chybovu spravu zrozumitelnejsiu pre deti v triede.

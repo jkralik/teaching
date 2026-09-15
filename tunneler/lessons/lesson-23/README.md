@@ -1,20 +1,20 @@
-# Lekcia 23: Vyber mapy
+# Lekcia 23: Kreslenie na canvas
 
 ## Ciel
 
-Umoznit hracom rozhodnut, do akej mapy sa pripoja.
+Vediet vykreslit mapu, tanky a strely v JavaScripte.
 
 ## Co si vysvetlime
 
-- endpoint `/api/maps`
-- `select` v HTML
-- query parameter `map`
-- samostatny hub pre kazdu mapu
+- `getContext("2d")`
+- `fillRect`
+- prepocet mriezky na pixely
+- farby podla typu policka
 
 ## Uloha
 
-Pridaj novu mapu a over, ze hraci v roznych mapach sa nevidia.
+Zmen sposob kreslenia tanku tak, aby bolo vidno smer.
 
 ## Mini vyzva
 
-Zobraz aktualny nazov mapy nad canvasom.
+Pridaj jednoduchu hlaven ako maly obdlznik.

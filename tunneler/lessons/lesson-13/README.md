@@ -1,20 +1,20 @@
-# Lekcia 13: Pohyb tanku
+# Lekcia 13: Herny stav
 
 ## Ciel
 
-Napogramovat pohyb podla smeru.
+Pochopit, preco ma server uchovavat pravdivy stav hry.
 
 ## Co si vysvetlime
 
-- `switch`
-- suradnice v mriezke
-- smer tanku
-- testovanie malej funkcie
+- mapa, tanky a strely ako stav
+- preco klient neposiela svoju polohu priamo
+- co znamena snapshot
+- kopirovanie dat pre odoslanie
 
 ## Uloha
 
-Uprav alebo otestuj funkciu `nextPosition`.
+Preskumaj strukturu `Snapshot` a najdi, kde sa vytvara.
 
 ## Mini vyzva
 
-Pridaj novy prikaz, ktory tank otoci bez pohybu.
+Pridaj do snapshotu pocet hracov na mape.

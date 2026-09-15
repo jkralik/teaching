@@ -1,20 +1,20 @@
-# Lekcia 20: Strely
+# Lekcia 20: Mutex a bezpecny stav
 
 ## Ciel
 
-Pridat objekt, ktory sa hybe sam.
+Pochopit, preco viac gorutin nemoze menit stav naraz bez pravidiel.
 
 ## Co si vysvetlime
 
-- struktura `Bullet`
-- vlastnik strely
-- tik hry cez `time.Ticker`
-- zanik strely po naraze
+- `sync.Mutex`
+- `Lock` a `Unlock`
+- `defer`
+- kriticka sekcia
 
 ## Uloha
 
-Zmen rychlost striel upravou casu v `time.NewTicker`.
+Najdi miesta, kde sa pouziva `hub.mu.Lock()`.
 
 ## Mini vyzva
 
-Pridaj limit, aby hrac nemohol vystrelit nekonecne vela striel naraz.
+Vysvetli vlastnymi slovami, co by sa mohlo stat bez mutexu.

@@ -1,20 +1,20 @@
-# Lekcia 18: Gorutiny a kanaly
+# Lekcia 18: Viac hracov
 
 ## Ciel
 
-Rozumiet zakladu sucasneho behu v Go.
+Pochopit, ako server drzi zoznam pripojenych hracov.
 
 ## Co si vysvetlime
 
-- `go func()`
-- kanal `chan`
-- citanie a zapis sprav
-- preco WebSocket potrebuje citanie aj zapis
+- mapa `map[string]Tank`
+- ID hraca
+- pripojenie a odpojenie
+- broadcast spravy vsetkym klientom
 
 ## Uloha
 
-Najdi kanal, cez ktory hub posiela spravy klientovi.
+Otvor hru v dvoch oknach prehliadaca a sleduj, ako sa tanky navzajom vidia.
 
 ## Mini vyzva
 
-Pridaj spravu pri pripojeni noveho hraca.
+Zmen startovaciu poziciu novych hracov.

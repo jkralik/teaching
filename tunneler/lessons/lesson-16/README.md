@@ -1,20 +1,20 @@
-# Lekcia 16: Klavesnica v JavaScripte
+# Lekcia 16: Kopanie tunelov
 
 ## Ciel
 
-Posielat prikazy zo sipok a WASD na server.
+Spravit z tanku kopaca, ktory meni mapu.
 
 ## Co si vysvetlime
 
-- udalost `keydown`
-- objekt s mapovanim klavesov
-- `event.preventDefault()`
-- odoslanie JSON spravy
+- mutovanie herneho stavu
+- rozdiel medzi zemou a prazdnym miestom
+- skore za odkopanu zem
+- preco sa tank pri kopani najprv nepohne
 
 ## Uloha
 
-Pridaj dalsie klavesy pre pohyb alebo zmen ovladanie.
+Zmen pocet bodov, ktore hrac dostane za odkopanie zeme.
 
 ## Mini vyzva
 
-Pridaj klaves `r`, ktory neskor pouzijeme na respawn.
+Sprav pravidlo, ze niektora zem da viac bodov.

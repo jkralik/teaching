@@ -1,20 +1,20 @@
-# Lekcia 24: Chyby a logovanie
+# Lekcia 24: Vyber mapy
 
 ## Ciel
 
-Nebat sa chyb a vediet ich citat.
+Umoznit hracom rozhodnut, do akej mapy sa pripoja.
 
 ## Co si vysvetlime
 
-- `error`
-- `if err != nil`
-- `log.Printf`
-- rozdiel medzi chybou pre programatora a hraca
+- endpoint `/api/maps`
+- `select` v HTML
+- query parameter `map`
+- samostatny hub pre kazdu mapu
 
 ## Uloha
 
-Skus pokazit subor mapy tak, aby mal riadky roznej dlzky, a precitaj chybovu spravu.
+Pridaj novu mapu a over, ze hraci v roznych mapach sa nevidia.
 
 ## Mini vyzva
 
-Sprav chybovu spravu zrozumitelnejsiu pre deti v triede.
+Zobraz aktualny nazov mapy nad canvasom.

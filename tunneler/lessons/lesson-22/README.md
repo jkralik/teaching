@@ -1,20 +1,20 @@
-# Lekcia 22: Kreslenie na canvas
+# Lekcia 22: Zasah tanku
 
 ## Ciel
 
-Vediet vykreslit mapu, tanky a strely v JavaScripte.
+Vyhodnotit, ci strela trafila ineho hraca.
 
 ## Co si vysvetlime
 
-- `getContext("2d")`
-- `fillRect`
-- prepocet mriezky na pixely
-- farby podla typu policka
+- porovnanie suradnic
+- preskocenie vlastnika strely
+- zmena `Alive`
+- body za zasah
 
 ## Uloha
 
-Zmen sposob kreslenia tanku tak, aby bolo vidno smer.
+Uprav pocet bodov za trafenie supera.
 
 ## Mini vyzva
 
-Pridaj jednoduchu hlaven ako maly obdlznik.
+Pridaj zivoty namiesto okamziteho vyradenia.

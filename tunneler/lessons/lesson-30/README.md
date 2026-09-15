@@ -1,20 +1,20 @@
-# Lekcia 30: Turnaj a prezentacia
+# Lekcia 30: Male vylepsenia klienta
 
 ## Ciel
 
-Dokoncit vlastnu verziu hry a ukazat ju ostatnym.
+Spravit hru prijemnejsiu na hranie.
 
 ## Co si vysvetlime
 
-- co sme sa naucili
-- ako opisat svoj kod
-- ako hladat chyby pri prezentacii
-- co by sa dalo spravit dalej
+- tabulka skore
+- zobrazenie pripojenia
+- jednoduchy herny HUD
+- citatelnost na malom displeji
 
 ## Uloha
 
-Vyber jednu vlastnu upravu hry, dokonci ju a priprav kratku ukazku.
+Pridaj zoznam hracov a ich skore do HTML stranky.
 
 ## Mini vyzva
 
-Zapis tri napady, ako by mohla hra vyzerat po dalsich 30 lekciach.
+Zvyrazni vlastny tank inou farbou.

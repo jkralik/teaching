@@ -18,6 +18,7 @@ type Map struct {
 }
 
 func LoadMap(path string) (*Map, error) {
+	// Lekcia 09: Tento scanner je pripraveny na nacitanie vlastnej mapy zo suboru.
 	file, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -27,15 +28,16 @@ func LoadMap(path string) (*Map, error) {
 	var rows [][]Tile
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
+		// Lekcia 25: Pokaz mapovy subor a precitaj chybu, ktoru vrati validacia.
 		line := strings.TrimRight(scanner.Text(), "\r")
 		if line == "" {
 			continue
 		}
-		row := make([]Tile, len(line))
+		row := make([]Tile, 0, len(line)*2)
 		for index := range line {
-			row[index] = Tile(line[index])
+			row = append(row, Tile(line[index]), Tile(line[index]))
 		}
-		rows = append(rows, row)
+		rows = append(rows, append([]Tile(nil), row...), row)
 	}
 	if err := scanner.Err(); err != nil {
 		return nil, err
@@ -82,6 +84,7 @@ func MapNames(maps map[string]*Map) []string {
 }
 
 func GenerateMap(name string, width int, height int) *Map {
+	// Lekcia 10: Zmen tieto pravdepodobnosti a sleduj, ako sa meni vygenerovana mapa.
 	tiles := make([][]Tile, height)
 	for y := range height {
 		tiles[y] = make([]Tile, width)
@@ -110,6 +113,7 @@ func (gameMap *Map) Clone() *Map {
 }
 
 func (gameMap *Map) TileAt(x int, y int) Tile {
+	// Lekcia 07: Dopln metodu Inside(x, y int) bool a pouzi ju pre kontrolu hranic mapy.
 	if x < 0 || y < 0 || x >= gameMap.Width || y >= gameMap.Height {
 		return TileRock
 	}

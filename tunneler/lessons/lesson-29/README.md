@@ -7,13 +7,13 @@ Pridat pravidla pre navrat hraca do hry.
 ## Co si vysvetlime
 
 - stav `Alive`
-- prikaz `respawn`
+- automaticky respawn po troch sekundach
 - hladanie volneho miesta
 - reset kola
 
 ## Uloha
 
-Pridaj klientsky prikaz `respawn` a serverovu reakciu.
+Po zniceni automaticky oziv tank po troch sekundach na volnom policku. Over, ze sa vrati s plnym zdravim.
 
 ## Mini vyzva
 

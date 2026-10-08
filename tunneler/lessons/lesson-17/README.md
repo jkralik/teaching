@@ -11,6 +11,16 @@ Posielat prikazy zo sipok a WASD na server.
 - `event.preventDefault()`
 - odoslanie JSON spravy
 
+## Kodovy krok
+
+V `web/app.js` dopln do mapy klaves aj WASD a pri odoslani prikazu zavolaj `event.preventDefault()`.
+
+Novy pojem: udalost `keydown` opisuje stlacenie klavesu a objekt s mapovanim oddeli vstup od herneho prikazu.
+
+## Overenie
+
+Pohybuj tankom sipkami aj klavesmi WASD. Stranka sa pri pohybe nesmie posuvat.
+
 ## Uloha
 
 Pridaj dalsie klavesy pre pohyb alebo zmen ovladanie.

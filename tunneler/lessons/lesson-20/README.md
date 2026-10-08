@@ -11,6 +11,16 @@ Pochopit, preco viac gorutin nemoze menit stav naraz bez pravidiel.
 - `defer`
 - kriticka sekcia
 
+## Kodovy krok
+
+V kazdej metode, ktora cita alebo meni stav hubu, pouzi `hub.mu.Lock()` a `defer hub.mu.Unlock()`.
+
+Novy pojem: mutex chrani kriticku sekciu, aby dve gorutiny nemenili mapu hracov naraz.
+
+## Overenie
+
+Spusti `go test -race ./...` a skontroluj, ze testy nehlasia datove preteky.
+
 ## Uloha
 
 Najdi miesta, kde sa pouziva `hub.mu.Lock()`.

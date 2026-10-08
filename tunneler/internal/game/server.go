@@ -2,19 +2,23 @@ package game
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 
 	"github.com/gorilla/websocket"
 )
 
 type Server struct {
-	mu       sync.Mutex
-	maps     map[string]*Map
-	hubs     map[string]*Hub
-	upgrader websocket.Upgrader
+	mu           sync.Mutex
+	maps         map[string]*Map
+	hubs         map[string]*Hub
+	upgrader     websocket.Upgrader
+	nextPlayerID atomic.Uint64
 }
 
 func NewServer(mapDir string) *Server {
@@ -24,7 +28,7 @@ func NewServer(mapDir string) *Server {
 		loadedMaps = make(map[string]*Map)
 	}
 	if len(loadedMaps) == 0 {
-		loadedMaps["generated"] = GenerateMap("generated", 32, 20)
+		loadedMaps["generated"] = GenerateMap("generated", 64, 40)
 	}
 
 	return &Server{
@@ -37,6 +41,7 @@ func NewServer(mapDir string) *Server {
 }
 
 func (server *Server) HandleMaps(w http.ResponseWriter, r *http.Request) {
+	// Lekcia 24: Tento endpoint naplni select v klientovi zoznamom dostupnych map.
 	writeJSON(w, MapNames(server.maps))
 }
 
@@ -47,6 +52,7 @@ func (server *Server) HandleMap(w http.ResponseWriter, r *http.Request) {
 }
 
 func (server *Server) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
+	// Lekcia 24: Query parameter map vybera hub, ku ktoremu sa hrac pripoji.
 	mapName := r.URL.Query().Get("map")
 	if mapName == "" {
 		mapName = "generated"
@@ -54,6 +60,17 @@ func (server *Server) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	playerName := strings.TrimSpace(r.URL.Query().Get("name"))
 	if playerName == "" {
 		playerName = "Hrac"
+	}
+	// Timy: "auto" alebo prazdne = server vyberie tim, "none" = bez timu, cislo = konkretny tim.
+	team := TeamAuto
+	switch value := r.URL.Query().Get("team"); value {
+	case "", "auto":
+	case "none":
+		team = TeamNone
+	default:
+		if number, err := strconv.Atoi(value); err == nil && number >= 1 {
+			team = number
+		}
 	}
 
 	conn, err := server.upgrader.Upgrade(w, r, nil)
@@ -63,9 +80,9 @@ func (server *Server) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 
-	playerID := r.RemoteAddr
+	playerID := fmt.Sprintf("player-%d", server.nextPlayerID.Add(1))
 	hub := server.hubFor(mapName)
-	out := hub.Join(playerID, playerName)
+	out := hub.JoinTeam(playerID, playerName, team)
 	defer hub.Leave(playerID)
 
 	done := make(chan struct{})
@@ -97,11 +114,11 @@ func (server *Server) hubFor(name string) *Hub {
 	defer server.mu.Unlock()
 
 	if name == "generated" || name == "" {
-		server.maps["generated"] = GenerateMap("generated", 32, 20)
+		server.maps["generated"] = GenerateMap("generated", 64, 40)
 	}
 	gameMap, ok := server.maps[name]
 	if !ok {
-		gameMap = GenerateMap(name, 32, 20)
+		gameMap = GenerateMap(name, 64, 40)
 		server.maps[name] = gameMap
 	}
 	if hub, ok := server.hubs[name]; ok {

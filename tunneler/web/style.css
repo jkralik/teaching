@@ -33,6 +33,29 @@ body {
   margin: 16px auto;
 }
 
+/* Uvodna obrazovka: len panel s vyberom, v strede stranky. */
+body:not(.is-playing) .shell {
+  grid-template-columns: minmax(0, 380px);
+  justify-content: center;
+  margin-top: 8vh;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.player-info p {
+  margin: 0 0 10px;
+  font-weight: bold;
+}
+
+.leave-button {
+  background: transparent;
+  color: var(--danger);
+  border-color: var(--danger);
+  cursor: pointer;
+}
+
 .panel {
   align-self: start;
   border: 1px solid var(--line);
@@ -94,15 +117,166 @@ button {
   line-height: 1.4;
 }
 
+.weapon-hud {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(15, 13, 10, 0.7);
+}
+
+.weapon-hud h2 {
+  margin: 0 0 10px;
+  color: var(--accent-strong);
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.controls-help {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(15, 13, 10, 0.7);
+}
+
+/* Body timov v pruhu nad mapou. */
+.team-hud {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(15, 13, 10, 0.7);
+}
+
+.team-hud[hidden] {
+  display: none;
+}
+
+.team-hud ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.controls-help h2,
+.team-hud h2 {
+  margin: 0 0 10px;
+  color: var(--accent-strong);
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.team-hud h2 {
+  margin: 0;
+}
+
+.controls-help dl {
+  margin: 0;
+  font-size: 14px;
+}
+
+.controls-help dt {
+  margin-top: 8px;
+}
+
+.controls-help dd {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+.controls-help kbd {
+  display: inline-block;
+  min-width: 1.4em;
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--accent-strong);
+  font-family: inherit;
+  font-size: 13px;
+  text-align: center;
+}
+
+.weapon-name {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.weapon-damage {
+  margin: 2px 0 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.ammo-count {
+  display: flex;
+  gap: 7px;
+}
+
+.ammo-round {
+  width: 16px;
+  height: 24px;
+  border: 1px solid #75634b;
+  border-radius: 5px 5px 3px 3px;
+  background: #332b20;
+}
+
+.ammo-round.is-loaded {
+  border-color: var(--accent-strong);
+  background: linear-gradient(var(--accent-strong) 0 22%, var(--accent) 22%);
+  box-shadow: 0 0 8px rgba(255, 204, 87, 0.22);
+}
+
+.reload-status {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.reload-status.is-reloading {
+  color: var(--accent-strong);
+}
+
+.reload-track {
+  height: 7px;
+  margin-top: 9px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #332b20;
+}
+
+.reload-progress {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 120ms linear;
+}
+
 .game-area {
   min-width: 0;
 }
 
 canvas {
+  /* Lekcia 06: Zmen farby alebo pridaj triedy pre pripojeny a chybovy stav. */
   display: block;
   width: 100%;
   height: auto;
-  max-height: calc(100vh - 32px);
+  max-height: calc(100vh - 90px);
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #0f0d0a;

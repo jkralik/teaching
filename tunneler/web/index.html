@@ -9,23 +9,80 @@
   <body>
     <main class="shell">
       <section class="panel">
+        <!-- Lekcia 01: Zaklad projektu je pripraveny. Uprav nadpis alebo popis a sleduj, ako HTML meni obrazovku. -->
         <div>
           <p class="eyebrow">Go + WebSocket hra</p>
           <h1>Tunneler</h1>
         </div>
-        <label>
-          Meno hraca
-          <input id="playerName" maxlength="18" value="Hrac">
-        </label>
-        <label>
-          Mapa
-          <select id="mapSelect"></select>
-        </label>
-        <button id="joinButton">Pripojit sa</button>
+        <!-- Uvodna obrazovka: hrac si vyberie meno, mapu a tim. Po pripojeni sa skryje. -->
+        <div id="joinForm">
+          <label>
+            Meno hraca
+            <input id="playerName" maxlength="18" value="Hrac">
+          </label>
+          <label>
+            Mapa
+            <select id="mapSelect"></select>
+          </label>
+          <label>
+            Tim
+            <select id="teamSelect">
+              <option value="auto">Automaticky</option>
+              <option value="none">Bez timu</option>
+            </select>
+          </label>
+          <button id="joinButton">Pripojit sa</button>
+        </div>
+        <!-- Herna obrazovka: kto hra a tlacidlo na odpojenie. Ukaze sa az po pripojeni. -->
+        <div id="playerInfo" class="player-info" hidden>
+          <p id="playerSummary"></p>
+          <button id="leaveButton" class="leave-button">Odpojit sa</button>
+        </div>
         <p id="status">Server este nie je pripojeny.</p>
+        <section id="weaponHud" class="weapon-hud" aria-live="polite" hidden>
+          <h2>Zbran</h2>
+          <p id="weaponName" class="weapon-name"></p>
+          <p id="weaponDamage" class="weapon-damage"></p>
+          <p id="armorInfo" class="weapon-damage"></p>
+          <p id="bonusInfo" class="weapon-damage"></p>
+          <div id="ammoCount" class="ammo-count"></div>
+          <p id="reloadStatus" class="reload-status">Pripravena</p>
+          <div
+            id="reloadTrack"
+            class="reload-track"
+            role="progressbar"
+            aria-label="Prebijanie"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+            hidden
+          >
+            <div id="reloadProgress" class="reload-progress"></div>
+          </div>
+        </section>
+        <!-- Ovladanie: ked pridas novy klaves v app.js, dopis ho aj sem. -->
+        <section class="controls-help">
+          <h2>Ovladanie</h2>
+          <dl>
+            <dt><kbd>&uarr;</kbd> <kbd>&darr;</kbd> <kbd>&larr;</kbd> <kbd>&rarr;</kbd> / <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></dt>
+            <dd>Pohyb tanku, aj sikmo (dva klavesy naraz)</dd>
+            <dt><kbd>Medzernik</kbd></dt>
+            <dd>Vystrelit</dd>
+            <dt><kbd>Q</kbd></dt>
+            <dd>Dalsia zbran</dd>
+            <dt><kbd>E</kbd></dt>
+            <dd>Dalsi pancier</dd>
+          </dl>
+        </section>
+        <!-- Lekcia 30: Priprav miesto pre HUD so zoznamom hracov a ich score. -->
       </section>
 
-      <section class="game-area">
+      <section id="gameArea" class="game-area" hidden>
+        <!-- Timy: body timov nad mapou vyplna updateTeamHud v app.js. -->
+        <section id="teamHud" class="team-hud" aria-live="polite" hidden>
+          <h2>Body</h2>
+          <ul id="teamList"></ul>
+        </section>
         <canvas id="game" width="960" height="600"></canvas>
       </section>
     </main>

@@ -11,6 +11,16 @@ Vediet spustit Go program a rozumiet funkcii `main`.
 - importy
 - prikaz `go run`
 
+## Kodovy krok
+
+V `cmd/tunneler/main.go` vytvor funkciu `startupMessage(port string) string`, ktora vrati text `Tunneler server bezi na porte <port>`. V `main` jej vysledok vypis cez `log.Println`.
+
+Novy pojem: funkcia s parametrom a navratovou hodnotou. Funkcia oddeli vypocet textu od spustenia servera.
+
+## Overenie
+
+Spusti `go run ./cmd/tunneler` a skontroluj, ze terminal vypise spravu s portom `8080`. Potom skus `PORT=3000 go run ./cmd/tunneler`.
+
 ## Uloha
 
 V subore `cmd/tunneler/main.go` zmen text, ktory server vypise pri starte, a program znovu spusti.
@@ -68,4 +78,4 @@ git pull
 
 ## Mini vyzva
 
-Pridaj vypis, ktory povie, na akom porte hra bezi.
+Pridaj do spravy aj adresu, ktoru mas otvorit v prehliadaci.

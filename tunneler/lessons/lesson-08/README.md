@@ -46,6 +46,16 @@ Hladanie v `slice` ma cas $O(n)$: pri dvojnasobnom pocte hracov moze skontrolova
 
 Hladanie v `map` ma priemerne cas $O(1)$: pocet krokov sa pri pridani dalsich hracov velmi nemeni.
 
+## Kodovy krok
+
+V `internal/game/hub.go` dopln pomocnu funkciu `findTankByID`, ktora najde tank v `map[string]Tank`. Pouzi ju pri spracovani prikazu hraca.
+
+Novy pojem: mapa ma kluc a hodnotu; vyhladavanie podla ID je vhodnejsie ako prechadzanie celeho zoznamu.
+
+## Overenie
+
+Spusti `go test ./...` a over, ze sa hrac stale moze pripojit a pohybovat.
+
 ## Uloha
 
 Vytvor subor `internal/game/structures_benchmark_test.go`. Pridaj do neho dve benchmark funkcie: jednu, ktora hlada posledneho z 1 000 hracov v `slice`, a druhu, ktora rovnakeho hraca hlada v `map` podla ID.

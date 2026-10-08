@@ -12,8 +12,8 @@ func main() {
 	// Lekcia 02: Tento uvodny vypis je pripraveny na oddelenie do funkcie startupMessage(port string).
 	port := os.Getenv("PORT")
 	if port == "" {
-		// Lekcia 03: Predvolenu hodnotu 8080 nahrad konstantou defaultPort.
-		port = "8080"
+		// Lekcia 03: Predvolenu hodnotu 58080 nahrad konstantou defaultPort.
+		port = "58080"
 	}
 
 	server := game.NewServer("maps")
@@ -26,8 +26,8 @@ func main() {
 	mux.HandleFunc("GET /ws", server.HandleWebSocket)
 	mux.Handle("/", http.FileServer(http.Dir("web")))
 
-	addr := "0.0.0.0:" + port
-	log.Printf("Tunneler server bezi na http://%s", addr)
+	addr := ":" + port
+	log.Printf("Tunneler server bezi na http://localhost%s", addr)
 	if err := http.ListenAndServe(addr, mux); err != nil {
 		log.Fatal(err)
 	}

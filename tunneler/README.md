@@ -23,7 +23,7 @@ go run ./cmd/tunneler
 Potom otvor v prehliadaci:
 
 ```text
-http://localhost:8080
+http://localhost:58080
 ```
 
 Port sa da zmenit cez premennu prostredia:
@@ -39,7 +39,7 @@ Bot je samostatny program, ktory sa k serveru pripoji cez WebSocket ako bezny hr
 ```bash
 go run ./cmd/bot -map arena                          # bot proti vsetkym
 go run ./cmd/bot -name Pomocnik -follow Jano         # copilot v time hraca Jano
-go run ./cmd/bot -server http://192.168.1.20:8080 -name Robot2 -team none
+go run ./cmd/bot -server http://192.168.1.20:58080 -name Robot2 -team none
 ```
 
 Spravanie bota (mozog) je v `internal/bot/brain.go`, pozri lekcie 39-42.

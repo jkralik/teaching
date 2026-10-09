@@ -132,3 +132,15 @@ Odporucany rytmus hodiny:
 2. 35 minut: spolocne programovanie
 3. 10 minut: vlastna uprava alebo mini vyzva
 4. 5 minut: spustenie hry a zhrnutie
+
+## Navrhy
+
+### Misko
+
+- viacej zivotov
+- noc (tank vidi len nejaky okruh)
+- lepsi stit (nesmrtenlnost na kratky cas 10-20s)
+
+### Janko
+
+- skraslit tanky trosku 3D aby boli

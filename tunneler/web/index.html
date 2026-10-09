@@ -73,6 +73,7 @@
             <dt><kbd>E</kbd></dt>
             <dd>Dalsi pancier</dd>
           </dl>
+          <p>Na mobile pouzi dotykove tlacidla pod mapou.</p>
         </section>
         <!-- Lekcia 30: Priprav miesto pre HUD so zoznamom hracov a ich score. -->
       </section>
@@ -84,6 +85,20 @@
           <ul id="teamList"></ul>
         </section>
         <canvas id="game" width="960" height="600"></canvas>
+        <section class="touch-controls" aria-label="Dotykove ovladanie">
+          <div class="touch-dpad" aria-label="Pohyb">
+            <button type="button" class="direction-button" data-direction="up" aria-label="Hore">▲</button>
+            <button type="button" class="direction-button" data-direction="left" aria-label="Vlavo">◀</button>
+            <span class="dpad-center" aria-hidden="true"></span>
+            <button type="button" class="direction-button" data-direction="right" aria-label="Vpravo">▶</button>
+            <button type="button" class="direction-button" data-direction="down" aria-label="Dole">▼</button>
+          </div>
+          <div class="action-controls" aria-label="Akcie">
+            <button type="button" id="shootButton" class="action-button shoot-button">Strelit</button>
+            <button type="button" id="weaponButton" class="action-button">Dalsia zbran</button>
+            <button type="button" id="armorButton" class="action-button">Dalsi pancier</button>
+          </div>
+        </section>
       </section>
     </main>
 

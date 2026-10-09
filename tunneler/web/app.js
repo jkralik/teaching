@@ -11,6 +11,9 @@ const playerInfo = document.querySelector("#playerInfo");
 const playerSummary = document.querySelector("#playerSummary");
 const leaveButton = document.querySelector("#leaveButton");
 const gameArea = document.querySelector("#gameArea");
+const shootButton = document.querySelector("#shootButton");
+const weaponButton = document.querySelector("#weaponButton");
+const armorButton = document.querySelector("#armorButton");
 const statusText = document.querySelector("#status");
 const weaponHud = document.querySelector("#weaponHud");
 const ammoCount = document.querySelector("#ammoCount");
@@ -29,7 +32,7 @@ let state = null;
 let playerId = null;
 let reloadDurationMs = 0;
 let lastWeaponIndex = null;
-const movementKeys = new Set();
+const movementInputs = new Map();
 let movementTimer = null;
 
 playerName.disabled = false;
@@ -524,8 +527,7 @@ const movementByKey = {
 function sendMovement() {
   let dx = 0;
   let dy = 0;
-  for (const key of movementKeys) {
-    const vector = movementByKey[key];
+  for (const vector of movementInputs.values()) {
     dx += vector[0];
     dy += vector[1];
   }
@@ -544,22 +546,26 @@ function sendMovement() {
   send({ type: "move", direction, angle: Math.atan2(-dy, dx) });
 }
 
+function startMovement() {
+  if (!movementTimer) {
+    sendMovement();
+    movementTimer = window.setInterval(sendMovement, 30);
+  }
+}
+
 document.addEventListener("keydown", (event) => {
   // Lekcia 17: Mapovanie klavesov oddeluje ovladanie od sprav posielanych serveru.
-  if (event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement || event.target instanceof HTMLTextAreaElement) {
+  if (event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLButtonElement) {
     return;
   }
 
   if (movementByKey[event.key]) {
     event.preventDefault();
-    movementKeys.add(event.key);
+    movementInputs.set(`keyboard:${event.key}`, movementByKey[event.key]);
     // Rychlost tanku urcuje len casovac (kazdych 30 ms jeden krok).
     // Drzany klaves posiela opakovane keydown udalosti, tie by tank zrychlili,
     // preto krok posleme hned len pri prvom stlaceni.
-    if (!movementTimer) {
-      sendMovement();
-      movementTimer = window.setInterval(sendMovement, 30);
-    }
+    startMovement();
   }
   if (event.key === " ") {
     // Lekcia 21: Medzernik vytvori na serveri novu strelu, ktoru pohana ticker.
@@ -580,15 +586,44 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
-  movementKeys.delete(event.key);
-  if (movementKeys.size === 0 && movementTimer) {
+  movementInputs.delete(`keyboard:${event.key}`);
+  if (movementInputs.size === 0 && movementTimer) {
     window.clearInterval(movementTimer);
     movementTimer = null;
   }
 });
 
+const directionVectors = {
+  up: [0, -1],
+  down: [0, 1],
+  left: [-1, 0],
+  right: [1, 0],
+};
+
+document.querySelectorAll(".direction-button").forEach((button) => {
+  const vector = directionVectors[button.dataset.direction];
+
+  button.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    button.setPointerCapture(event.pointerId);
+    movementInputs.set(`pointer:${event.pointerId}`, vector);
+    startMovement();
+  });
+
+  const stopPointerMovement = (event) => {
+    movementInputs.delete(`pointer:${event.pointerId}`);
+    if (movementInputs.size === 0 && movementTimer) {
+      window.clearInterval(movementTimer);
+      movementTimer = null;
+    }
+  };
+  button.addEventListener("pointerup", stopPointerMovement);
+  button.addEventListener("pointercancel", stopPointerMovement);
+  button.addEventListener("lostpointercapture", stopPointerMovement);
+});
+
 function stopMovement() {
-  movementKeys.clear();
+  movementInputs.clear();
   if (movementTimer) {
     window.clearInterval(movementTimer);
     movementTimer = null;
@@ -597,6 +632,22 @@ function stopMovement() {
 
 window.addEventListener("blur", stopMovement);
 
+function bindActionButton(button, message) {
+  button.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    send(message);
+  });
+  button.addEventListener("click", (event) => {
+    // Pointer akcie sa odosielaju hned pri dotyku; click obsluhuje klavesnicu a asistivne technologie.
+    if (event.detail === 0) {
+      send(message);
+    }
+  });
+}
+
+bindActionButton(shootButton, { type: "shoot" });
+bindActionButton(weaponButton, { type: "weapon" });
+bindActionButton(armorButton, { type: "armor" });
 joinButton.addEventListener("click", connect);
 leaveButton.addEventListener("click", disconnect);
 

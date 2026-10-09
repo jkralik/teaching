@@ -79,6 +79,7 @@ Podrobny postup a vysvetlenie prikazov je v [druhej lekcii](lessons/lesson-02/RE
 - Rychlost pohybu strazi server: tank spravi najviac jeden krok za 30 ms, aj keby klient posielal spravy `move` castejsie.
 - Pri vypadku spojenia sa tank oznaci ako offline a nemoze konat ani strielat. Pripojenie s rovnakym menom do 5 minut obnovi jeho stav; potom sa tank odstrani. Tlacidlo „Odpojit sa“ odstrani tank aj jeho herny stav hned.
 - Sipkami alebo WASD sa tank pohybuje aj sikmo; pri drzeni klavesu sa pohybuje plynulo.
+- Na mobile sa tank ovlada dotykovymi sipkami; podrzanim viac sipiek naraz sa pohybuje sikmo. Tlacidla pod mapou sluzia na strelbu, zmenu zbrane a panciera.
 - Klavesom medzernik tank vystreli.
 - Strela leti smerom, ktorym je tank otoceny.
 - Kazdy tank ma zivoty (`tankMaxHealth`, predvolene 100), ktore ukazuje farebny ukazovatel nad tankom. Zasah da strelcovi 1 bod, zniceny tank 5 bodov.

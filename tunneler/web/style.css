@@ -271,6 +271,88 @@ button {
   min-width: 0;
 }
 
+.touch-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 480px;
+  margin: 12px auto 0;
+  touch-action: none;
+  user-select: none;
+}
+
+.touch-dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 52px);
+  grid-template-rows: repeat(3, 52px);
+  gap: 4px;
+}
+
+.direction-button,
+.action-button {
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #332b20;
+  color: var(--text);
+  font-size: 20px;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.direction-button:active,
+.action-button:active {
+  background: var(--accent);
+  color: #211300;
+}
+
+.direction-button[data-direction="up"] {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.direction-button[data-direction="left"] {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.dpad-center {
+  grid-column: 2;
+  grid-row: 2;
+  border-radius: 50%;
+  background: #14110d;
+}
+
+.direction-button[data-direction="right"] {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.direction-button[data-direction="down"] {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.action-controls {
+  display: grid;
+  flex: 1;
+  gap: 8px;
+  max-width: 190px;
+}
+
+.action-button {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 15px;
+}
+
+.shoot-button {
+  background: var(--accent);
+  color: #211300;
+}
+
 canvas {
   /* Lekcia 06: Zmen farby alebo pridaj triedy pre pripojeny a chybovy stav. */
   display: block;
@@ -285,6 +367,107 @@ canvas {
 @media (max-width: 760px) {
   .shell {
     grid-template-columns: 1fr;
+    width: min(600px, calc(100vw - 20px));
+    margin: 10px auto;
+  }
+
+  body.is-playing .shell {
+    gap: 10px;
+  }
+
+  body.is-playing .panel {
+    order: 1;
+    padding: 12px;
+  }
+
+  body.is-playing .game-area {
+    order: 0;
+  }
+
+  .touch-controls {
+    max-width: 440px;
+  }
+
+  .touch-dpad {
+    grid-template-columns: repeat(3, 48px);
+    grid-template-rows: repeat(3, 48px);
+  }
+
+  .team-hud {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  body.is-playing .shell {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0;
+    gap: 0;
+  }
+
+  body.is-playing .game-area {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  body.is-playing .team-hud {
+    flex-shrink: 0;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  body.is-playing canvas {
+    width: 100%;
+    max-height: min(60vh, 60svh);
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  body.is-playing .touch-controls {
+    width: min(100%, 440px);
+    flex: 1;
+    margin: 0 auto;
+    padding: 8px 12px;
+  }
+
+  body.is-playing .panel {
+    width: 100%;
+    padding: 8px 12px;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  body.is-playing .panel > div:first-child,
+  body.is-playing #status,
+  body.is-playing .controls-help {
+    display: none;
+  }
+
+  body.is-playing .player-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  body.is-playing .player-info p {
+    margin: 0;
+  }
+
+  body.is-playing .leave-button {
+    width: auto;
+    padding: 6px 10px;
+  }
+
+  body.is-playing .weapon-hud {
+    margin-top: 8px;
+    padding: 8px;
   }
 
   h1 {

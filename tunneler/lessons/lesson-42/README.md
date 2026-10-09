@@ -42,7 +42,7 @@ Zlepsi copilota v `brain.go`:
 ## Turnaj botov
 
 1. Kazde dieta si vylepsi svojho bota (lekcie 39-41) na svojom pocitaci.
-2. Lektor spusti jeden server, vsetci sa pripoja cez `-server http://<ip-lektora>:8080 -team none`.
+2. Lektor spusti jeden server, vsetci sa pripoja cez `-server http://<ip-lektora>:8080 -team none` (kazdy hrac dostane vlastny tim).
 3. Kazdy bot ma vlastne meno. Po 5 minutach vyhrava bot s najvacsim skore.
 4. Potom turnaj timov: dvaja hraci a ich copiloti (`-follow`) proti dalsim dvom.
 

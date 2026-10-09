@@ -58,4 +58,4 @@ Preco pri `stuckTicks = 3` bot nevie prekopat zem? (Napoveda: kopanie jedneho po
 
 ## Mini vyzva
 
-Spusti dvoch botov naraz s inymi menami: `go run ./cmd/bot -name Robot2 -team none`. Kto vyhra?
+Spusti dvoch botov naraz s inymi menami: `go run ./cmd/bot -name Robot2 -team none`. Kazdy dostane vlastny tim; kto vyhra?

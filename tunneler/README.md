@@ -77,7 +77,7 @@ Podrobny postup a vysvetlenie prikazov je v [druhej lekcii](lessons/lesson-02/RE
 - Kazdy hrac je tank na spolocnej mape.
 - Tanky do seba nenarazaju prejazdom; aj odpojeny tank zostava na mape a blokuje cestu.
 - Rychlost pohybu strazi server: tank spravi najviac jeden krok za 30 ms, aj keby klient posielal spravy `move` castejsie.
-- Po odpojeni sa tank oznaci ako offline a nemoze konat ani strielat. Pripojenie s rovnakym menom do 5 minut obnovi jeho stav; potom sa tank odstrani.
+- Pri vypadku spojenia sa tank oznaci ako offline a nemoze konat ani strielat. Pripojenie s rovnakym menom do 5 minut obnovi jeho stav; potom sa tank odstrani. Tlacidlo „Odpojit sa“ odstrani tank aj jeho herny stav hned.
 - Sipkami alebo WASD sa tank pohybuje aj sikmo; pri drzeni klavesu sa pohybuje plynulo.
 - Klavesom medzernik tank vystreli.
 - Strela leti smerom, ktorym je tank otoceny.
@@ -89,7 +89,7 @@ Podrobny postup a vysvetlenie prikazov je v [druhej lekcii](lessons/lesson-02/RE
 - Zem sa da odkopat pohybom do blokov `#`. Kopanie chvilu trva, takze tank je v zemi pomalsi; tvrdost zeme nastavuje `dirtHardness` v `internal/game/hub.go`.
 - Kamene `X` su pevna prekazka.
 - Na volnych polickach sa nahodne objavuju bonusy zo zoznamu `bonusCatalog()` v `internal/game/bonus.go` (napr. `R` = okamzity reload). Tank ich zbiera prejdenim; ten isty docasny bonus moze mat len raz naraz. Fialove policko `?` da nahodny efekt, aj negativny (napr. Blato spomali tank). Aktivne bonusy ukazuje panel Zbran.
-- Hrac si pri pripojeni vyberie tim (`Automaticky` = tim s najmenej hracmi, alebo `Bez timu` = kazdy proti kazdemu; taky tank dostane nahodnu farbu, jej sytost a svetlost nastavuju `soloColorSaturation` a `soloColorLightness`). Timy su v zozname `teamCatalog()` v `internal/game/team.go` (meno a farba tanku), prehliadac ich nacita z `/api/teams`. Strela spoluhraca nezrani a preleti cez neho; prepinac je konstanta `friendlyFire`. Skore timu je sucet bodov jeho hracov a ukazuje ho panel Timy. Po znovupripojeni hrac zostava vo svojom povodnom time.
+- Hrac si pri pripojeni vyberie tim (`Automaticky` = tim s najmenej hracmi; `Bez timu` vytvori hracovi samostatny tim pomenovany podla neho s nahodnou farbou, ktoru nastavuju `soloColorSaturation` a `soloColorLightness`). Vyberatelne timy su v zozname `teamCatalog()` v `internal/game/team.go` (meno a farba tanku), prehliadac ich nacita z `/api/teams`. Strela spoluhraca nezrani a preleti cez neho; prepinac je konstanta `friendlyFire`. Skore timu je sucet bodov jeho hracov a ukazuje ho panel Timy. Po znovupripojeni hrac zostava vo svojom povodnom time.
 - Server je pravda: klient len posiela prikazy a kresli stav.
 
 ## Struktura

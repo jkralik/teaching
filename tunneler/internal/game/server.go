@@ -61,7 +61,7 @@ func (server *Server) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	if playerName == "" {
 		playerName = "Hrac"
 	}
-	// Timy: "auto" alebo prazdne = server vyberie tim, "none" = bez timu, cislo = konkretny tim.
+	// Timy: "auto" alebo prazdne = server vyberie tim, "none" = vlastny tim, cislo = konkretny tim.
 	team := TeamAuto
 	switch value := r.URL.Query().Get("team"); value {
 	case "", "auto":
@@ -98,6 +98,10 @@ func (server *Server) HandleWebSocket(w http.ResponseWriter, r *http.Request) {
 	for {
 		var message ClientMessage
 		if err := conn.ReadJSON(&message); err != nil {
+			return
+		}
+		if message.Type == "leave" {
+			hub.RemovePlayer(playerID)
 			return
 		}
 		hub.Handle(Command{PlayerID: playerID, PlayerName: playerName, Message: message})

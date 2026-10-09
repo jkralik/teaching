@@ -160,9 +160,10 @@ function connect() {
   });
 }
 
-// Odpojenie: tank na serveri pocka 5 minut, kym sa hrac s rovnakym menom vrati.
+// Vedomym odpojenim hrac odstrani svoj tank aj herny stav zo servera.
 function disconnect() {
-  if (socket) {
+  if (socket?.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({ type: "leave" }));
     socket.close();
   }
 }

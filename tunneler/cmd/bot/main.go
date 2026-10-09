@@ -17,7 +17,7 @@ import (
 
 func main() {
 	options := bot.Options{}
-	flag.StringVar(&options.Server, "server", "http://localhost:8080", "adresa servera")
+	flag.StringVar(&options.Server, "server", "http://localhost:58080", "adresa servera")
 	flag.StringVar(&options.Map, "map", "arena", "nazov mapy")
 	flag.StringVar(&options.Name, "name", "Robot", "meno tanku")
 	flag.StringVar(&options.Team, "team", "", "tim: auto, none alebo cislo (prazdne = auto alebo tim hraca z -follow)")

@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"math"
 	"net/http"
+	"strings"
 )
 
 // TeamSettings popisuje jeden tim.
 type TeamSettings struct {
-	Name  string `json:"name"`
-	Color string `json:"color"` // farba tela tanku v prehliadaci
+	Name    string `json:"name"`
+	Color   string `json:"color"` // farba tela tanku v prehliadaci
+	OwnerID string `json:"-"`
 }
 
 // TeamStatus je skore timu, ktore posielame prehliadacu.
@@ -47,17 +49,64 @@ func (hub *Hub) teamSettingsFor(team int) (TeamSettings, bool) {
 	return hub.teams[team-1], true
 }
 
-// Timy: Hrac bez timu dostane nahodnu farbu. Odtien (hue) je nahodny 0-359,
+// Osobne timy dostanu nahodnu farbu. Odtien (hue) je nahodny 0-359,
 // sytost a svetlost su pevne, aby bola farba vzdy pekne vyrazna.
 const (
 	soloColorSaturation = 0.65 // 0 = siva, 1 = najsytejsia
 	soloColorLightness  = 0.55 // 0 = cierna, 1 = biela
 )
 
-// randomSoloColorLocked vyberie nahodnu farbu tanku bez timu, napr. "#3fbf6a".
+// randomSoloColorLocked vyberie nahodnu farbu osobneho timu, napr. "#3fbf6a".
 func (hub *Hub) randomSoloColorLocked() string {
 	hue := hub.random.Float64() * 360
 	return hslToHex(hue, soloColorSaturation, soloColorLightness)
+}
+
+// createSoloTeamLocked vytvori vlastny tim pre hraca, ktory si zvolil "bez timu".
+func (hub *Hub) createSoloTeamLocked(playerID string, playerName string) int {
+	name := strings.TrimSpace(playerName)
+	if name == "" {
+		name = "Hrac"
+	}
+	hub.teams = append(hub.teams, TeamSettings{
+		Name:    name,
+		Color:   hub.randomSoloColorLocked(),
+		OwnerID: playerID,
+	})
+	return len(hub.teams)
+}
+
+func (hub *Hub) removeSoloTeamLocked(playerID string) {
+	teamIndex := -1
+	for index := hub.playableTeamCount; index < len(hub.teams); index++ {
+		if hub.teams[index].OwnerID == playerID {
+			teamIndex = index + 1
+			break
+		}
+	}
+	if teamIndex == -1 {
+		return
+	}
+
+	hub.teams = append(hub.teams[:teamIndex-1], hub.teams[teamIndex:]...)
+	for id, tank := range hub.tanks {
+		if tank.Team == teamIndex {
+			tank.Team = TeamNone
+			hub.tanks[id] = tank
+		} else if tank.Team > teamIndex {
+			tank.Team--
+			hub.tanks[id] = tank
+		}
+	}
+	for id, bullet := range hub.bullets {
+		if bullet.Team > teamIndex {
+			bullet.Team--
+			hub.bullets[id] = bullet
+		} else if bullet.Team == teamIndex {
+			bullet.Team = TeamNone
+			hub.bullets[id] = bullet
+		}
+	}
 }
 
 // hslToHex prevedie farbu z HSL (odtien, sytost, svetlost) na zapis "#rrggbb".
@@ -96,21 +145,21 @@ func canHurt(shooterTeam int, targetTeam int) bool {
 
 // chooseTeamLocked zmeni volbu hraca na skutocne cislo timu.
 func (hub *Hub) chooseTeamLocked(requested int) int {
-	if requested == TeamNone || len(hub.teams) == 0 {
+	if requested == TeamNone || hub.playableTeamCount == 0 {
 		return TeamNone
 	}
-	if _, ok := hub.teamSettingsFor(requested); ok {
+	if requested >= 1 && requested <= hub.playableTeamCount {
 		return requested
 	}
 	// Automaticky vyber: tim s najmenej hracmi, pri rovnosti ten prvy.
-	counts := make([]int, len(hub.teams)+1)
+	counts := make([]int, hub.playableTeamCount+1)
 	for _, tank := range hub.tanks {
-		if tank.Team >= 1 && tank.Team <= len(hub.teams) {
+		if tank.Team >= 1 && tank.Team <= hub.playableTeamCount {
 			counts[tank.Team]++
 		}
 	}
 	best := 1
-	for team := 2; team <= len(hub.teams); team++ {
+	for team := 2; team <= hub.playableTeamCount; team++ {
 		if counts[team] < counts[best] {
 			best = team
 		}

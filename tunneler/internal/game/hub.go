@@ -44,15 +44,16 @@ type weaponSlot struct {
 }
 
 type Hub struct {
-	mu         sync.Mutex
-	gameMap    *Map
-	tanks      map[string]Tank
-	bullets    map[string]Bullet
-	arsenal    []WeaponSettings
-	armors     []ArmorSettings
-	teams      []TeamSettings
-	weapons    map[weaponSlot]weaponState
-	explosions map[string]Explosion
+	mu                sync.Mutex
+	gameMap           *Map
+	tanks             map[string]Tank
+	bullets           map[string]Bullet
+	arsenal           []WeaponSettings
+	armors            []ArmorSettings
+	teams             []TeamSettings
+	playableTeamCount int
+	weapons           map[weaponSlot]weaponState
+	explosions        map[string]Explosion
 	// Lekcia 37: Bonusy z katalogu a bonusy, ktore prave lezia na mape.
 	bonusCatalog []BonusSettings
 	bonuses      map[string]BonusItem
@@ -63,21 +64,23 @@ type Hub struct {
 }
 
 func NewHub(gameMap *Map) *Hub {
+	teams := teamCatalog()
 	hub := &Hub{
-		gameMap:      gameMap.Clone(),
-		tanks:        make(map[string]Tank),
-		bullets:      make(map[string]Bullet),
-		arsenal:      weaponCatalog(),
-		armors:       armorCatalog(),
-		teams:        teamCatalog(),
-		weapons:      make(map[weaponSlot]weaponState),
-		explosions:   make(map[string]Explosion),
-		bonusCatalog: bonusCatalog(),
-		bonuses:      make(map[string]BonusItem),
-		nextBonusAt:  time.Now().Add(bonusSpawnInterval),
-		random:       rand.New(rand.NewPCG(uint64(time.Now().UnixNano()), 37)),
-		clients:      make(map[string]chan ServerMessage),
-		stop:         make(chan struct{}),
+		gameMap:           gameMap.Clone(),
+		tanks:             make(map[string]Tank),
+		bullets:           make(map[string]Bullet),
+		arsenal:           weaponCatalog(),
+		armors:            armorCatalog(),
+		teams:             teams,
+		playableTeamCount: len(teams),
+		weapons:           make(map[weaponSlot]weaponState),
+		explosions:        make(map[string]Explosion),
+		bonusCatalog:      bonusCatalog(),
+		bonuses:           make(map[string]BonusItem),
+		nextBonusAt:       time.Now().Add(bonusSpawnInterval),
+		random:            rand.New(rand.NewPCG(uint64(time.Now().UnixNano()), 37)),
+		clients:           make(map[string]chan ServerMessage),
+		stop:              make(chan struct{}),
 	}
 	go hub.loop()
 	return hub
@@ -117,6 +120,10 @@ func (hub *Hub) JoinTeam(playerID string, playerName string, team int) chan Serv
 		break
 	}
 	if !resumed {
+		selectedTeam := hub.chooseTeamLocked(team)
+		if team == TeamNone {
+			selectedTeam = hub.createSoloTeamLocked(playerID, playerName)
+		}
 		tank := Tank{
 			ID:        playerID,
 			Name:      playerName,
@@ -126,10 +133,7 @@ func (hub *Hub) JoinTeam(playerID string, playerName string, team int) chan Serv
 			Connected: true,
 			Health:    tankMaxHealth,
 			MaxHealth: tankMaxHealth,
-			Team:      hub.chooseTeamLocked(team),
-		}
-		if tank.Team == TeamNone {
-			tank.soloColor = hub.randomSoloColorLocked()
+			Team:      selectedTeam,
 		}
 		spawnX := float64(2+len(hub.tanks)%max(1, hub.gameMap.Width-4)) + 0.5
 		spawnY := 2.5
@@ -163,6 +167,19 @@ func (hub *Hub) Leave(playerID string) {
 		}
 		hub.broadcastLocked(ServerMessage{Type: "state", State: hub.snapshotLocked()})
 	}
+}
+
+// RemovePlayer odstrani hraca a jeho herny stav po vedomom odpojeni.
+func (hub *Hub) RemovePlayer(playerID string) {
+	hub.mu.Lock()
+	defer hub.mu.Unlock()
+
+	if out, ok := hub.clients[playerID]; ok {
+		close(out)
+		delete(hub.clients, playerID)
+	}
+	hub.removeTankLocked(playerID)
+	hub.broadcastLocked(ServerMessage{Type: "state", State: hub.snapshotLocked()})
 }
 
 func (hub *Hub) Handle(command Command) {
@@ -502,6 +519,11 @@ func (hub *Hub) tankPositionBlockedLocked(playerID string, x float64, y float64)
 }
 
 func (hub *Hub) reassignPlayerStateLocked(previousID string, playerID string) {
+	for index := range hub.teams {
+		if hub.teams[index].OwnerID == previousID {
+			hub.teams[index].OwnerID = playerID
+		}
+	}
 	for slot, weapon := range hub.weapons {
 		if slot.PlayerID != previousID {
 			continue
@@ -525,6 +547,12 @@ func (hub *Hub) removeTankLocked(playerID string) {
 			delete(hub.weapons, slot)
 		}
 	}
+	for id, bullet := range hub.bullets {
+		if bullet.OwnerID == playerID {
+			delete(hub.bullets, id)
+		}
+	}
+	hub.removeSoloTeamLocked(playerID)
 }
 
 // weaponSettingsFor vrati nastavenia zbrane podla poradia v zozname.
@@ -600,8 +628,6 @@ func (hub *Hub) snapshotLocked() Snapshot {
 		if team, ok := hub.teamSettingsFor(tank.Team); ok {
 			tank.TeamName = team.Name
 			tank.TeamColor = team.Color
-		} else {
-			tank.TeamColor = tank.soloColor
 		}
 		tanks[id] = tank
 	}

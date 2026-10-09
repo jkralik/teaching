@@ -51,9 +51,6 @@ type Tank struct {
 	Bonuses      []ActiveBonus `json:"bonuses"`
 	Invulnerable bool          `json:"invulnerable"`
 
-	// soloColor je nahodna farba tanku bez timu; snapshot ju posle ako TeamColor.
-	soloColor string
-
 	// Rozkopane policko zeme a kolko krokov uz tank kope (prehliadac to nepotrebuje).
 	digging     bool
 	digX, digY  int

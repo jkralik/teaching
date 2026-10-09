@@ -52,18 +52,20 @@ func TestPlayersAreBalancedIntoTeams(t *testing.T) {
 	if hub.tanks["p4"].Team != 1 {
 		t.Fatal("player should join the chosen team")
 	}
-	if hub.tanks["p5"].Team != TeamNone {
-		t.Fatal("player without team should stay without team")
+	if hub.tanks["p5"].Team != 3 {
+		t.Fatalf("player without a selected team should get a personal team, got %d", hub.tanks["p5"].Team)
 	}
 	if hub.tanks["p6"].Team != 2 {
-		t.Fatal("unknown team should fall back to automatic choice")
+		t.Fatal("unknown team should fall back to automatic choice among selectable teams")
 	}
 
 	snapshot := hub.snapshotLocked()
 	if snapshot.Tanks["p2"].TeamName != "Modri" || snapshot.Tanks["p2"].TeamColor != "#00f" {
 		t.Fatalf("snapshot should contain team name and color, got %+v", snapshot.Tanks["p2"])
 	}
-	if len(snapshot.Teams) != 2 || snapshot.Teams[0].Players != 3 || snapshot.Teams[1].Players != 2 {
+	if len(snapshot.Teams) != 3 || snapshot.Teams[0].Players != 3 ||
+		snapshot.Teams[1].Players != 2 || snapshot.Teams[2].Name != "Emil" ||
+		snapshot.Teams[2].Players != 1 {
 		t.Fatalf("snapshot should count players in teams, got %+v", snapshot.Teams)
 	}
 }
@@ -125,20 +127,35 @@ func TestBulletFliesThroughTeammate(t *testing.T) {
 func TestSoloPlayerGetsRandomColor(t *testing.T) {
 	hub := testTeamHub(t)
 	hub.JoinTeam("solo", "Ana", TeamNone)
-	color := hub.snapshotLocked().Tanks["solo"].TeamColor
+	snapshot := hub.snapshotLocked()
+	tank := snapshot.Tanks["solo"]
+	color := tank.TeamColor
 	if len(color) != 7 || color[0] != '#' {
-		t.Fatalf("player without team should get a color like #rrggbb, got %q", color)
+		t.Fatalf("personal team should get a color like #rrggbb, got %q", color)
+	}
+	if tank.Team == TeamNone || tank.TeamName != "Ana" {
+		t.Fatalf("player without a selected team should get a named personal team, got %+v", tank)
 	}
 
 	hub.Leave("solo")
 	hub.JoinTeam("back", "Ana", TeamNone)
-	if hub.snapshotLocked().Tanks["back"].TeamColor != color {
-		t.Fatal("returning player should keep the same color")
+	if resumed := hub.snapshotLocked().Tanks["back"]; resumed.Team != tank.Team || resumed.TeamColor != color {
+		t.Fatal("returning player should keep the same team and color")
+	}
+	hub.RemovePlayer("back")
+	if len(hub.teams) != hub.playableTeamCount {
+		t.Fatalf("explicitly disconnecting after reconnect should remove the personal team, got %+v", hub.teams)
+	}
+
+	hub.JoinTeam("other", "Boris", TeamNone)
+	other := hub.tanks["other"]
+	if team, ok := hub.teamSettingsFor(other.Team); !ok || team.OwnerID != "other" {
+		t.Fatal("each player without a selected team should get a separate team")
 	}
 
 	hub.JoinTeam("red", "Boris", 1)
-	if hub.tanks["red"].soloColor != "" {
-		t.Fatal("team player should use the team color")
+	if hub.tanks["red"].Team != 1 {
+		t.Fatal("player who selects a catalog team should join that team")
 	}
 }
 
@@ -159,5 +176,35 @@ func TestReconnectedPlayerKeepsTeam(t *testing.T) {
 
 	if hub.tanks["new"].Team != 2 {
 		t.Fatal("returning player should stay in the original team")
+	}
+}
+
+func TestRemovePlayerClearsPlayerStateAndPersonalTeam(t *testing.T) {
+	hub := testTeamHub(t)
+	hub.JoinTeam("solo", "Ana", TeamNone)
+	hub.JoinTeam("other", "Boris", TeamNone)
+	hub.JoinTeam("red", "Cyril", 1)
+	hub.weapons[weaponSlot{PlayerID: "solo", Weapon: 0}] = weaponState{shotsFired: 1}
+	hub.bullets["solo-shot"] = Bullet{ID: "solo-shot", OwnerID: "solo", Team: hub.tanks["solo"].Team}
+
+	hub.RemovePlayer("solo")
+
+	if _, ok := hub.tanks["solo"]; ok {
+		t.Fatal("explicitly disconnected player's tank should be removed")
+	}
+	if _, ok := hub.weapons[weaponSlot{PlayerID: "solo", Weapon: 0}]; ok {
+		t.Fatal("explicitly disconnected player's weapon state should be removed")
+	}
+	if _, ok := hub.bullets["solo-shot"]; ok {
+		t.Fatal("explicitly disconnected player's bullets should be removed")
+	}
+	if _, ok := hub.clients["solo"]; ok {
+		t.Fatal("explicitly disconnected player's client should be removed")
+	}
+	if len(hub.teams) != hub.playableTeamCount+1 || hub.teams[hub.playableTeamCount].Name != "Boris" {
+		t.Fatalf("only the remaining player's personal team should remain, got %+v", hub.teams)
+	}
+	if hub.tanks["other"].Team != hub.playableTeamCount+1 || hub.tanks["red"].Team != 1 {
+		t.Fatal("removing a personal team should preserve other team assignments")
 	}
 }
